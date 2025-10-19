@@ -5,6 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>주식회사 부동산투자법인 대담</title>
     <style>
+        :root {
+            /* 시스템 박스 기반 CSS 변수 */
+            --box-padding-xs: 0.5rem;
+            --box-padding-sm: 1rem;
+            --box-padding-md: 1.5rem;
+            --box-padding-lg: 2rem;
+            --box-padding-xl: 3rem;
+            
+            --box-margin-xs: 0.5rem;
+            --box-margin-sm: 1rem;
+            --box-margin-md: 1.5rem;
+            --box-margin-lg: 2rem;
+            --box-margin-xl: 3rem;
+            
+            /* 브레이크포인트 */
+            --mobile-xs: 320px;
+            --mobile-sm: 375px;
+            --mobile-md: 414px;
+            --tablet: 768px;
+            --desktop-sm: 1024px;
+            --desktop-lg: 1200px;
+            --desktop-xl: 1440px;
+            
+            /* 그리드 시스템 */
+            --grid-gap-xs: 0.5rem;
+            --grid-gap-sm: 1rem;
+            --grid-gap-md: 1.5rem;
+            --grid-gap-lg: 2rem;
+            
+            /* 타이포그래피 스케일 */
+            --text-xs: 0.75rem;
+            --text-sm: 0.875rem;
+            --text-base: 1rem;
+            --text-lg: 1.125rem;
+            --text-xl: 1.25rem;
+            --text-2xl: 1.5rem;
+            --text-3xl: 1.875rem;
+            --text-4xl: 2.25rem;
+            --text-5xl: 3rem;
+            
+            /* 색상 시스템 */
+            --primary-color: #2C3E50;
+            --secondary-color: #34495E;
+            --accent-color: #3498DB;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --text-light: #999;
+            --bg-primary: #fff;
+            --bg-secondary: #f8f9fa;
+            --border-color: #e9ecef;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,21 +66,77 @@
         body {
             font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
             line-height: 1.6;
-            color: #333;
-            background-color: #fff;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            font-size: var(--text-base);
+        }
+
+        /* 시스템 박스 기본 클래스 */
+        .box {
+            display: block;
+            width: 100%;
+        }
+
+        .box-flex {
+            display: flex;
+            width: 100%;
+        }
+
+        .box-grid {
+            display: grid;
+            width: 100%;
+        }
+
+        .box-inline {
+            display: inline-block;
+        }
+
+        /* 패딩 시스템 */
+        .p-xs { padding: var(--box-padding-xs); }
+        .p-sm { padding: var(--box-padding-sm); }
+        .p-md { padding: var(--box-padding-md); }
+        .p-lg { padding: var(--box-padding-lg); }
+        .p-xl { padding: var(--box-padding-xl); }
+
+        /* 마진 시스템 */
+        .m-xs { margin: var(--box-margin-xs); }
+        .m-sm { margin: var(--box-margin-sm); }
+        .m-md { margin: var(--box-margin-md); }
+        .m-lg { margin: var(--box-margin-lg); }
+        .m-xl { margin: var(--box-margin-xl); }
+
+        /* 반응형 그리드 시스템 */
+        .grid-responsive {
+            display: grid;
+            gap: var(--grid-gap-sm);
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 768px) {
+            .grid-responsive {
+                gap: var(--grid-gap-md);
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .grid-responsive {
+                gap: var(--grid-gap-lg);
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
 
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 var(--box-padding-sm);
         }
 
-        /* Navigation */
+        /* Navigation - 시스템 박스 기반 */
         .navbar {
             background: transparent;
-            padding: 15px 0;
+            padding: var(--box-padding-sm) 0;
             position: absolute;
             top: 0;
             left: 0;
@@ -46,7 +154,7 @@
         .nav-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 var(--box-padding-sm);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -55,7 +163,7 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: var(--box-padding-sm);
         }
 
         .logo img {
@@ -64,15 +172,44 @@
         }
 
         .logo-text {
-            font-size: 1.5rem;
+            font-size: var(--text-2xl);
             font-weight: 700;
             letter-spacing: 1px;
+        }
+
+        /* 모바일 햄버거 메뉴 */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: var(--box-padding-xs);
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
         }
 
         .nav-menu {
             display: flex;
             align-items: center;
-            gap: 40px;
+            gap: var(--box-padding-xl);
             list-style: none;
             margin: 0;
         }
@@ -80,25 +217,27 @@
         .nav-link {
             color: white;
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: var(--text-sm);
             font-weight: 500;
             transition: color 0.3s ease;
         }
 
         .nav-link:hover {
-            color: #2C3E50;
+            color: var(--primary-color);
         }
 
         .nav-cta {
-            background: #2C3E50;
+            background: var(--primary-color);
             color: white;
-            padding: 12px 28px;
+            padding: var(--box-padding-sm) var(--box-padding-lg);
             border-radius: 6px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: var(--text-sm);
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(44, 62, 80, 0.3);
+            position: relative;
+            z-index: 25;
+            cursor: pointer;
         }
 
         .nav-cta:hover {
@@ -107,7 +246,67 @@
             box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
         }
 
-        /* Hero Section */
+        /* 모바일 반응형 네비게이션 */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 300px;
+                height: 100vh;
+                background: rgba(44, 62, 80, 0.98);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: var(--box-padding-lg);
+                transition: right 0.3s ease;
+                z-index: 999;
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-link {
+                font-size: var(--text-lg);
+                padding: var(--box-padding-sm);
+                display: block;
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-cta {
+                margin-top: var(--box-padding-md);
+                font-size: var(--text-base);
+                padding: var(--box-padding-md) var(--box-padding-lg);
+            }
+
+            .logo-text {
+                font-size: var(--text-xl);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 0 var(--box-padding-sm);
+            }
+
+            .logo img {
+                height: 35px;
+            }
+
+            .logo-text {
+                font-size: var(--text-lg);
+            }
+        }
+
+        /* Hero Section - 시스템 박스 기반 */
         .hero {
             background: url('img/1.jpg') center/cover;
             color: white;
@@ -133,7 +332,7 @@
         .hero-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 var(--box-padding-sm);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -148,10 +347,11 @@
             text-align: center;
             max-width: 800px;
             margin: 0 auto;
+            padding: var(--box-padding-lg);
         }
 
         .hero-logo {
-            margin-bottom: 30px;
+            margin-bottom: var(--box-padding-lg);
             text-align: center;
         }
 
@@ -162,17 +362,17 @@
         }
 
         .hero-title {
-            font-size: 3.8rem;
+            font-size: var(--text-5xl);
             font-weight: 700;
             line-height: 1.1;
-            margin-bottom: 2rem;
+            margin-bottom: var(--box-padding-lg);
             letter-spacing: -0.02em;
         }
 
         .hero-subtitle {
-            font-size: 1.2rem;
+            font-size: var(--text-lg);
             line-height: 1.7;
-            margin-bottom: 3rem;
+            margin-bottom: var(--box-padding-xl);
             opacity: 0.9;
             font-weight: 300;
             max-width: 600px;
@@ -182,50 +382,143 @@
 
         .hero-buttons {
             display: flex;
-            gap: 20px;
+            gap: var(--box-padding-sm);
             align-items: center;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         .btn-primary {
-            background: #2C3E50;
+            background: var(--primary-color);
             color: white;
-            padding: 18px 36px;
+            padding: var(--box-padding-md) var(--box-padding-xl);
             border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: var(--text-base);
             transition: all 0.3s ease;
             box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+            position: relative;
+            z-index: 20;
+            cursor: pointer;
         }
 
         .btn-primary:hover {
-            background: #34495e;
+            background: var(--secondary-color);
             transform: translateY(-2px) scale(1.02);
             box-shadow: 0 8px 25px rgba(44, 62, 80, 0.4);
             cursor: pointer;
             transition: all 0.3s ease;
+        }
+
+        /* 모바일 반응형 히어로 섹션 */
+        @media (max-width: 768px) {
+            .hero {
+                padding-top: 70px;
+                min-height: 100vh;
+            }
+
+            .hero-container {
+                padding: 0 var(--box-padding-sm);
+                min-height: calc(100vh - 70px);
+            }
+
+            .hero-content {
+                padding: var(--box-padding-md);
+            }
+
+            .hero-logo img {
+                height: 60px;
+            }
+
+            .hero-title {
+                font-size: var(--text-4xl);
+                margin-bottom: var(--box-padding-md);
+            }
+
+            .hero-subtitle {
+                font-size: var(--text-base);
+                margin-bottom: var(--box-padding-lg);
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                gap: var(--box-padding-sm);
+                width: 100%;
+            }
+
+            .btn-primary {
+                width: 100%;
+                max-width: 300px;
+                padding: var(--box-padding-md) var(--box-padding-lg);
+                font-size: var(--text-sm);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content {
+                padding: var(--box-padding-sm);
+            }
+
+            .hero-logo img {
+                height: 50px;
+            }
+
+            .hero-title {
+                font-size: var(--text-3xl);
+                margin-bottom: var(--box-padding-sm);
+            }
+
+            .hero-subtitle {
+                font-size: var(--text-sm);
+                margin-bottom: var(--box-padding-md);
+            }
+
+            .btn-primary {
+                padding: var(--box-padding-sm) var(--box-padding-md);
+                font-size: var(--text-sm);
+            }
         }
 
         .btn-secondary {
             background: transparent;
             color: white;
-            padding: 18px 36px;
+            padding: var(--box-padding-md) var(--box-padding-xl);
             border: 2px solid white;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: var(--text-base);
             transition: all 0.3s ease;
+            position: relative;
+            z-index: 20;
+            cursor: pointer;
         }
 
         .btn-secondary:hover {
-            background: #2C3E50;
+            background: var(--primary-color);
             color: white;
             transform: translateY(-2px) scale(1.02);
             box-shadow: 0 8px 25px rgba(44, 62, 80, 0.4);
             cursor: pointer;
             transition: all 0.3s ease;
+        }
+
+        /* 모바일 반응형 버튼 */
+        @media (max-width: 768px) {
+            .btn-secondary {
+                width: 100%;
+                max-width: 300px;
+                padding: var(--box-padding-md) var(--box-padding-lg);
+                font-size: var(--text-sm);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .btn-secondary {
+                padding: var(--box-padding-sm) var(--box-padding-md);
+                font-size: var(--text-sm);
+            }
         }
 
         .hero-image {
@@ -315,55 +608,55 @@
             margin-bottom: 2rem;
         }
 
-        /* Services Section */
+        /* Services Section - 시스템 박스 기반 */
         .services {
-            padding: 120px 0;
-            background-color: #ffffff;
+            padding: var(--box-padding-xl) 0;
+            background-color: var(--bg-primary);
         }
 
         .services-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 var(--box-padding-sm);
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 80px;
+            gap: var(--box-padding-xl);
             align-items: center;
         }
 
         .services-content {
-            padding-right: 40px;
+            padding-right: var(--box-padding-lg);
         }
 
         .services-badge {
-            color: #2C3E50;
-            font-size: 0.9rem;
+            color: var(--primary-color);
+            font-size: var(--text-sm);
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 20px;
+            margin-bottom: var(--box-padding-sm);
         }
 
         .services-title {
-            font-size: 2.6rem;
+            font-size: var(--text-4xl);
             font-weight: 600;
             line-height: 1.1;
-            color: #333;
-            margin-bottom: 30px;
+            color: var(--text-primary);
+            margin-bottom: var(--box-padding-lg);
             letter-spacing: -0.02em;
         }
 
         .services-description {
-            font-size: 1.1rem;
+            font-size: var(--text-lg);
             line-height: 1.7;
-            color: #666;
-            margin-bottom: 50px;
+            color: var(--text-secondary);
+            margin-bottom: var(--box-padding-xl);
             max-width: 500px;
         }
 
         .stats-container {
             display: flex;
-            gap: 60px;
+            gap: var(--box-padding-xl);
             align-items: flex-start;
         }
 
@@ -372,16 +665,16 @@
         }
 
         .stat-number {
-            font-size: 3.5rem;
+            font-size: var(--text-5xl);
             font-weight: 700;
-            color: #333;
+            color: var(--text-primary);
             line-height: 1;
-            margin-bottom: 10px;
+            margin-bottom: var(--box-padding-xs);
         }
 
         .stat-label {
-            font-size: 1rem;
-            color: #666;
+            font-size: var(--text-base);
+            color: var(--text-secondary);
             font-weight: 500;
             line-height: 1.4;
         }
@@ -398,6 +691,86 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        /* 모바일 반응형 서비스 섹션 */
+        @media (max-width: 768px) {
+            .services {
+                padding: var(--box-padding-lg) 0;
+            }
+
+            .services-container {
+                grid-template-columns: 1fr;
+                gap: var(--box-padding-lg);
+                padding: 0 var(--box-padding-sm);
+            }
+
+            .services-content {
+                padding-right: 0;
+                order: 2;
+            }
+
+            .services-image {
+                order: 1;
+                height: 300px;
+            }
+
+            .services-title {
+                font-size: var(--text-3xl);
+                margin-bottom: var(--box-padding-md);
+            }
+
+            .services-description {
+                font-size: var(--text-base);
+                margin-bottom: var(--box-padding-lg);
+            }
+
+            .stats-container {
+                gap: var(--box-padding-lg);
+                justify-content: space-around;
+            }
+
+            .stat-number {
+                font-size: var(--text-4xl);
+            }
+
+            .stat-label {
+                font-size: var(--text-sm);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .services {
+                padding: var(--box-padding-md) 0;
+            }
+
+            .services-container {
+                gap: var(--box-padding-md);
+            }
+
+            .services-image {
+                height: 250px;
+            }
+
+            .services-title {
+                font-size: var(--text-2xl);
+                margin-bottom: var(--box-padding-sm);
+            }
+
+            .services-description {
+                font-size: var(--text-sm);
+                margin-bottom: var(--box-padding-md);
+            }
+
+            .stats-container {
+                flex-direction: column;
+                gap: var(--box-padding-md);
+                text-align: center;
+            }
+
+            .stat-number {
+                font-size: var(--text-3xl);
+            }
         }
 
         /* Company Overview Section */
@@ -744,34 +1117,34 @@
             }
         }
 
-        /* Booking Form Section */
+        /* Booking Form Section - 시스템 박스 기반 */
         .booking {
-            padding: 80px 0;
-            background-color: #ffffff;
+            padding: var(--box-padding-xl) 0;
+            background-color: var(--bg-primary);
         }
 
         .booking-form-container {
             max-width: 500px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 var(--box-padding-sm);
         }
 
         .booking-header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: var(--box-padding-lg);
         }
 
         .booking-title {
-            font-size: 2rem;
+            font-size: var(--text-3xl);
             font-weight: 700;
-            color: #333;
-            margin-bottom: 15px;
+            color: var(--text-primary);
+            margin-bottom: var(--box-padding-sm);
             letter-spacing: -0.02em;
         }
 
         .booking-subtitle {
-            font-size: 1rem;
-            color: #666;
+            font-size: var(--text-base);
+            color: var(--text-secondary);
             line-height: 1.5;
             max-width: 450px;
             margin: 0 auto;
@@ -779,21 +1152,21 @@
 
         .booking-form {
             background: white;
-            padding: 0;
-            border-radius: 0;
-            box-shadow: none;
+            padding: var(--box-padding-lg);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: var(--box-padding-lg);
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: var(--box-padding-xs);
             font-weight: 500;
-            color: #333;
-            font-size: 0.95rem;
+            color: var(--text-primary);
+            font-size: var(--text-sm);
         }
 
         .required {
@@ -805,35 +1178,35 @@
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e8e8e8;
-            border-radius: 6px;
-            font-size: 0.95rem;
+            padding: var(--box-padding-sm) var(--box-padding-md);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: var(--text-sm);
             font-family: inherit;
-            background-color: #f8f9fa;
+            background-color: var(--bg-secondary);
             transition: all 0.3s ease;
-            color: #333;
+            color: var(--text-primary);
         }
 
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #2C3E50;
-            background-color: #ffffff;
+            border-color: var(--primary-color);
+            background-color: var(--bg-primary);
             box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
         }
 
         .form-group input::placeholder,
         .form-group select::placeholder,
         .form-group textarea::placeholder {
-            color: #999;
+            color: var(--text-light);
             font-style: italic;
         }
 
         .phone-input-group {
             display: flex;
-            gap: 10px;
+            gap: var(--box-padding-xs);
             align-items: center;
         }
 
@@ -842,8 +1215,8 @@
         }
 
         .phone-separator {
-            color: #999;
-            font-size: 1.2rem;
+            color: var(--text-light);
+            font-size: var(--text-lg);
             font-weight: 300;
         }
 
@@ -865,16 +1238,18 @@
 
         .submit-button {
             width: 100%;
-            background-color: #222;
+            background-color: var(--primary-color);
             color: white;
-            padding: 14px 20px;
+            padding: var(--box-padding-md) var(--box-padding-lg);
             border: none;
-            border-radius: 6px;
-            font-size: 1rem;
+            border-radius: 8px;
+            font-size: var(--text-base);
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 20;
         }
 
         .submit-button:hover {
@@ -884,6 +1259,88 @@
 
         .submit-button:active {
             transform: translateY(0);
+        }
+
+        /* 모바일 반응형 폼 */
+        @media (max-width: 768px) {
+            .booking {
+                padding: var(--box-padding-lg) 0;
+            }
+
+            .booking-form-container {
+                padding: 0 var(--box-padding-sm);
+                max-width: 100%;
+            }
+
+            .booking-title {
+                font-size: var(--text-2xl);
+                margin-bottom: var(--box-padding-xs);
+            }
+
+            .booking-subtitle {
+                font-size: var(--text-sm);
+            }
+
+            .booking-form {
+                padding: var(--box-padding-md);
+            }
+
+            .form-group {
+                margin-bottom: var(--box-padding-md);
+            }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: var(--box-padding-sm);
+                font-size: var(--text-sm);
+            }
+
+            .phone-input-group {
+                flex-direction: column;
+                gap: var(--box-padding-xs);
+            }
+
+            .phone-input {
+                width: 100%;
+            }
+
+            .phone-separator {
+                display: none;
+            }
+
+            .submit-button {
+                padding: var(--box-padding-md);
+                font-size: var(--text-sm);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .booking {
+                padding: var(--box-padding-md) 0;
+            }
+
+            .booking-form-container {
+                padding: 0 var(--box-padding-xs);
+            }
+
+            .booking-title {
+                font-size: var(--text-xl);
+            }
+
+            .booking-form {
+                padding: var(--box-padding-sm);
+            }
+
+            .form-group {
+                margin-bottom: var(--box-padding-sm);
+            }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: var(--box-padding-xs) var(--box-padding-sm);
+            }
         }
 
         /* Footer */
@@ -1592,6 +2049,44 @@
     </div>
 
     <script>
+        // 모바일 햄버거 메뉴 토글
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (mobileMenuToggle && navMenu) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                    
+                    // 메뉴가 열릴 때 body 스크롤 방지
+                    if (navMenu.classList.contains('active')) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = '';
+                    }
+                });
+                
+                // 메뉴 링크 클릭 시 메뉴 닫기
+                navMenu.querySelectorAll('.nav-link, .nav-cta').forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileMenuToggle.classList.remove('active');
+                        navMenu.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                });
+                
+                // 외부 클릭 시 메뉴 닫기
+                document.addEventListener('click', function(e) {
+                    if (!mobileMenuToggle.contains(e.target) && !navMenu.contains(e.target)) {
+                        mobileMenuToggle.classList.remove('active');
+                        navMenu.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+        });
+
         // Smooth scrolling for all navigation links
         document.querySelectorAll('a[href^="#"]').forEach(link => {
             link.addEventListener('click', function(e) {
