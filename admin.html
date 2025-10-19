@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대담 관리자 시스템 - 접근 제한</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        /* Login Container */
+        .login-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .login-title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            font-size: 14px;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .form-input {
+            background: #222;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #666;
+            background: #333;
+        }
+
+        .form-input::placeholder {
+            color: #888;
+        }
+
+        .login-btn {
+            background: #333;
+            border: 1px solid #555;
+            color: #fff;
+            padding: 15px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background: #444;
+            border-color: #666;
+        }
+
+        .login-btn:active {
+            background: #222;
+        }
+
+        .error-message {
+            color: #ff6666;
+            text-align: center;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        /* Admin Dashboard (Hidden by default) */
+        .admin-dashboard {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            background: #000;
+            color: #fff;
+            overflow-y: auto;
+        }
+
+        .admin-header {
+            background: #111;
+            border-bottom: 1px solid #333;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-title {
+            font-size: 24px;
+            color: #fff;
+        }
+
+        .logout-btn {
+            background: #333;
+            border: 1px solid #555;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #444;
+            border-color: #666;
+        }
+
+        .admin-content {
+            padding: 30px;
+        }
+
+
+        .data-table {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .table-header {
+            background: #222;
+            padding: 15px;
+            border-bottom: 1px solid #333;
+            font-weight: bold;
+        }
+
+        .table-content {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            gap: 10px;
+            padding: 15px;
+            border-bottom: 1px solid #333;
+            transition: background 0.3s ease;
+        }
+
+        .table-row:hover {
+            background: #222;
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        .table-cell {
+            font-size: 12px;
+            word-break: break-word;
+        }
+
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+            font-style: italic;
+        }
+
+        .action-btn {
+            background: #333;
+            border: 1px solid #555;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 10px;
+            transition: all 0.3s ease;
+            margin-right: 5px;
+        }
+
+        .action-btn:hover {
+            background: #444;
+            border-color: #666;
+        }
+
+        .delete-btn {
+            background: #ff4444;
+            border: 1px solid #ff6666;
+        }
+
+        .delete-btn:hover {
+            background: #ff6666;
+            border-color: #ff8888;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #111;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #666;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .login-container {
+                width: 90%;
+                padding: 30px 20px;
+            }
+
+            .table-row {
+                grid-template-columns: 1fr;
+                gap: 5px;
+            }
+
+            .table-cell {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <h1 class="login-title">시스템 접근</h1>
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label class="form-label" for="username">사용자 ID</label>
+                <input type="text" id="username" class="form-input" placeholder="자격 증명을 입력하세요..." required>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="password">비밀번호</label>
+                <input type="password" id="password" class="form-input" placeholder="비밀번호를 입력하세요..." required>
+            </div>
+            <button type="submit" class="login-btn">인증</button>
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+        </form>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminDashboard" class="admin-dashboard">
+        <div class="admin-header">
+            <h1 class="admin-title">대담 관리자 시스템</h1>
+            <button class="logout-btn" onclick="logout()">로그아웃</button>
+        </div>
+        
+        <div class="admin-content">
+
+            <div class="data-table">
+                <div class="table-header">
+                    <div class="table-row">
+                        <div class="table-cell">날짜</div>
+                        <div class="table-cell">이름</div>
+                        <div class="table-cell">회사명</div>
+                        <div class="table-cell">전화번호</div>
+                        <div class="table-cell">유형</div>
+                        <div class="table-cell">투자금액대</div>
+                        <div class="table-cell">작업</div>
+                    </div>
+                </div>
+                <div class="table-content" id="consultationsTable">
+                    <div class="no-data">상담 데이터가 없습니다</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fixed credentials
+        const ADMIN_CREDENTIALS = {
+            username: 'admin001',
+            password: 'admin002'
+        };
+
+        // Security check
+        function checkAuth() {
+            const isAuthenticated = sessionStorage.getItem('admin_authenticated');
+            if (isAuthenticated === 'true') {
+                showDashboard();
+            } else {
+                showLogin();
+            }
+        }
+
+        // Show login screen
+        function showLogin() {
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('adminDashboard').style.display = 'none';
+        }
+
+        // Show dashboard
+        function showDashboard() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('adminDashboard').style.display = 'block';
+            loadConsultationData();
+        }
+
+        // Login form handler
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Security check - only allow exact credentials
+            if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                sessionStorage.setItem('admin_authenticated', 'true');
+                showDashboard();
+                errorMessage.style.display = 'none';
+            } else {
+                errorMessage.textContent = '접근 거부 - 잘못된 자격 증명';
+                errorMessage.style.display = 'block';
+                
+                // Clear form
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+                
+                // Add security delay
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 3000);
+            }
+        });
+
+        // Logout function
+        function logout() {
+            sessionStorage.removeItem('admin_authenticated');
+            showLogin();
+            
+            // Clear form
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        // Load consultation data from MongoDB
+        async function loadConsultationData() {
+            try {
+                const response = await fetch('/api/consultations');
+                const result = await response.json();
+                
+                if (!result.success) {
+                    console.error('데이터 로드 실패:', result.message);
+                    return;
+                }
+                
+                const consultations = result.data;
+                const tableContent = document.getElementById('consultationsTable');
+                
+                
+                if (consultations.length === 0) {
+                    tableContent.innerHTML = '<div class="no-data">상담 데이터가 없습니다</div>';
+                    return;
+                }
+                
+                // Create table rows
+                tableContent.innerHTML = '';
+                consultations.forEach((consultation) => {
+                    const row = document.createElement('div');
+                    row.className = 'table-row';
+                    
+                    const date = new Date(consultation.createdAt).toLocaleString('ko-KR');
+                    
+                    row.innerHTML = `
+                        <div class="table-cell">${date}</div>
+                        <div class="table-cell">${consultation.name}</div>
+                        <div class="table-cell">${consultation.company}</div>
+                        <div class="table-cell">${consultation.phone}</div>
+                        <div class="table-cell">${getBusinessTypeText(consultation.businessType)}</div>
+                        <div class="table-cell">${getInvestmentAmountText(consultation.investmentAmount)}</div>
+                        <div class="table-cell">
+                            <button class="action-btn delete-btn" onclick="deleteConsultation('${consultation._id}')">삭제</button>
+                        </div>
+                    `;
+                    
+                    tableContent.appendChild(row);
+                });
+                
+            } catch (error) {
+                console.error('데이터 로드 오류:', error);
+                const tableContent = document.getElementById('consultationsTable');
+                tableContent.innerHTML = '<div class="no-data">데이터 로드 중 오류가 발생했습니다.</div>';
+            }
+        }
+
+
+        // Helper functions
+        function getBusinessTypeText(type) {
+            const types = {
+                'auction': '부동산 경매',
+                'public-sale': '부동산 공매',
+                'equity': '지분 투자',
+                'land-development': '임야 개발',
+                'consultation': '투자 상담',
+                'other': '기타'
+            };
+            return types[type] || type;
+        }
+
+        function getInvestmentAmountText(amount) {
+            const amounts = {
+                'under-100m': '1억 미만',
+                '100m-300m': '1~3억',
+                '300m-500m': '3~5억',
+                'over-500m': '5억 이상'
+            };
+            return amounts[amount] || amount;
+        }
+
+        // Delete consultation function
+        async function deleteConsultation(consultationId) {
+            if (!confirm('정말로 이 상담 데이터를 삭제하시겠습니까?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/consultations/${consultationId}`, {
+                    method: 'DELETE'
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    console.log('상담 데이터 삭제 성공:', result.message);
+                    loadConsultationData(); // 데이터 다시 로드
+                    alert('상담 데이터가 성공적으로 삭제되었습니다.');
+                } else {
+                    console.error('상담 데이터 삭제 실패:', result.message);
+                    alert('삭제에 실패했습니다: ' + result.message);
+                }
+                
+            } catch (error) {
+                console.error('삭제 오류:', error);
+                alert('네트워크 오류가 발생했습니다.');
+            }
+        }
+
+
+        // Security: Prevent access without authentication
+        window.addEventListener('beforeunload', function() {
+            // Optional: Clear session on page unload for extra security
+        });
+
+        // Security: Check authentication on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+        });
+
+        // Security: Prevent right-click and F12 (basic protection)
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
