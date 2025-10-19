@@ -1131,6 +1131,53 @@
                 width: 100%;
             }
 
+            /* 모바일에서 지도 iframe 숨기고 이미지 표시 */
+            .map-iframe {
+                display: none;
+            }
+
+            .map-mobile-image {
+                display: block !important;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 16px;
+            }
+
+            /* 모바일 주소 정보 표시 */
+            .map-mobile-info {
+                display: block !important;
+                margin-top: var(--box-padding-md);
+                background: var(--bg-secondary);
+                border-radius: 12px;
+                padding: var(--box-padding-md);
+            }
+
+            .address-info {
+                display: flex;
+                flex-direction: column;
+                gap: var(--box-padding-sm);
+            }
+
+            .address-item {
+                display: flex;
+                align-items: flex-start;
+                gap: var(--box-padding-xs);
+            }
+
+            .address-icon {
+                font-size: var(--text-lg);
+                margin-top: 2px;
+                flex-shrink: 0;
+            }
+
+            .address-text {
+                font-size: var(--text-sm);
+                color: var(--text-primary);
+                line-height: 1.5;
+                font-weight: 500;
+            }
+
             .floating-kakao {
                 width: 50px;
                 height: 50px;
@@ -1167,17 +1214,40 @@
                 margin: 0 auto;
                 width: 100%;
             }
+
+            .map-mobile-info {
+                margin-top: var(--box-padding-sm);
+                padding: var(--box-padding-sm);
+            }
+
+            .address-text {
+                font-size: var(--text-xs);
+            }
         }
 
         @media (max-width: 375px) {
             .map-wrapper {
                 aspect-ratio: 4/5;
             }
+
+            .address-text {
+                font-size: var(--text-xs);
+                line-height: 1.4;
+            }
         }
 
         @media (max-width: 320px) {
             .map-wrapper {
                 aspect-ratio: 3/4;
+            }
+
+            .map-mobile-info {
+                padding: var(--box-padding-xs);
+            }
+
+            .address-text {
+                font-size: 0.75rem;
+                line-height: 1.3;
             }
         }
 
@@ -1977,6 +2047,26 @@
             </div>
             <div class="map-wrapper">
                 <iframe class="map-iframe" src="https://naver.me/531gq93w" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <!-- 모바일용 지도 이미지 (데스크톱에서는 숨김) -->
+                <img class="map-mobile-image" src="img/map.png" alt="대담 위치 지도" style="display: none;">
+            </div>
+            
+            <!-- 모바일용 주소 정보 (데스크톱에서는 숨김) -->
+            <div class="map-mobile-info" style="display: none;">
+                <div class="address-info">
+                    <div class="address-item">
+                        <span class="address-icon">📍</span>
+                        <span class="address-text">서울 금천구 디지털로 178 가산퍼블릭 에이동 13층 1328호</span>
+                    </div>
+                    <div class="address-item">
+                        <span class="address-icon">🚇</span>
+                        <span class="address-text">가산디지털단지역 6번 출구에서 558m</span>
+                    </div>
+                    <div class="address-item">
+                        <span class="address-icon">🏢</span>
+                        <span class="address-text">퍼블릭 가산 A동 1328호</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
