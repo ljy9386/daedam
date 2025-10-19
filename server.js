@@ -7,7 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // MongoDB 연결
-const MONGODB_URI = 'mongodb+srv://admin:wmfdksk123@minimalshop.p2lpoe3.mongodb.net/daedam_consultations?retryWrites=true&w=majority&appName=MinimalShop';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://admin:wmfdksk123@minimalshop.p2lpoe3.mongodb.net/daedam_consultations?retryWrites=true&w=majority&appName=MinimalShop';
 
 mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
@@ -62,8 +62,7 @@ app.post('/api/consultations', async (req, res) => {
             company,
             phone,
             businessType,
-            investmentAmount,
-            status: 'pending'
+            investmentAmount
         });
 
         // 데이터베이스에 저장
@@ -147,6 +146,6 @@ app.get('/admin', (req, res) => {
 // 서버 시작
 app.listen(PORT, () => {
     console.log(`서버가 포트 ${PORT}에서 실행 중입니다.`);
-    console.log(`메인 페이지: http://localhost:${PORT}`);
-    console.log(`관리자 페이지: http://localhost:${PORT}/admin`);
+    console.log(`메인 페이지: https://daedam.onrender.com`);
+    console.log(`관리자 페이지: https://daedam.onrender.com/admin`);
 });
