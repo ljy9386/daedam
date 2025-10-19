@@ -614,6 +614,13 @@
             background-color: var(--bg-primary);
         }
 
+        /* 데스크톱에서만 섹션 간격 증가 */
+        @media (min-width: 1025px) {
+            .services {
+                padding: 120px 0;
+            }
+        }
+
         .services-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -783,6 +790,13 @@
             display: flex;
             align-items: center;
             justify-content: flex-start;
+        }
+
+        /* 데스크톱에서만 회사 소개 섹션 상단 간격 증가 */
+        @media (min-width: 1025px) {
+            .company-overview {
+                margin-top: 60px;
+            }
         }
 
         .company-overview::before {
@@ -1010,6 +1024,13 @@
         .map-section {
             padding: var(--box-padding-xl) 0 var(--box-padding-lg);
             background-color: var(--bg-primary);
+        }
+
+        /* 데스크톱에서만 지도 섹션 간격 증가 */
+        @media (min-width: 1025px) {
+            .map-section {
+                padding: 120px 0 80px;
+            }
         }
 
         .map-container {
@@ -1255,6 +1276,13 @@
         .booking {
             padding: var(--box-padding-xl) 0;
             background-color: var(--bg-primary);
+        }
+
+        /* 데스크톱에서만 예약 섹션 간격 증가 */
+        @media (min-width: 1025px) {
+            .booking {
+                padding: 120px 0;
+            }
         }
 
         .booking-form-container {
