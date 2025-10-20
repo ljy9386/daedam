@@ -167,6 +167,186 @@ app.get('/api/server-info', (req, res) => {
     }
 });
 
+// Meshy 3D AI API 엔드포인트들
+app.post('/api/meshy/text-to-3d', async (req, res) => {
+    try {
+        const { prompt } = req.body;
+        
+        if (!prompt) {
+            return res.status(400).json({ 
+                success: false, 
+                message: '프롬프트를 입력해주세요.' 
+            });
+        }
+
+        const response = await fetch('https://api.meshy.ai/v1/text-to-3d', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer msy_8uXUWDNGMzgS7Tw5MVq962RasM6EpObWWOoV',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ prompt })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        
+        res.json({ 
+            success: true, 
+            message: '3D 모델 생성 요청이 성공했습니다.',
+            data: result
+        });
+
+    } catch (error) {
+        console.error('Meshy Text-to-3D 오류:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: `3D 모델 생성 중 오류가 발생했습니다: ${error.message}` 
+        });
+    }
+});
+
+app.post('/api/meshy/image-to-3d', async (req, res) => {
+    try {
+        const { imageUrl } = req.body;
+        
+        if (!imageUrl) {
+            return res.status(400).json({ 
+                success: false, 
+                message: '이미지 URL을 입력해주세요.' 
+            });
+        }
+
+        const response = await fetch('https://api.meshy.ai/v1/image-to-3d', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer msy_8uXUWDNGMzgS7Tw5MVq962RasM6EpObWWOoV',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ image_url: imageUrl })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        
+        res.json({ 
+            success: true, 
+            message: '이미지로 3D 모델 생성 요청이 성공했습니다.',
+            data: result
+        });
+
+    } catch (error) {
+        console.error('Meshy Image-to-3D 오류:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: `이미지로 3D 모델 생성 중 오류가 발생했습니다: ${error.message}` 
+        });
+    }
+});
+
+app.get('/api/meshy/task/:taskId', async (req, res) => {
+    try {
+        const { taskId } = req.params;
+
+        const response = await fetch(`https://api.meshy.ai/v1/tasks/${taskId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer msy_8uXUWDNGMzgS7Tw5MVq962RasM6EpObWWOoV',
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        
+        res.json({ 
+            success: true, 
+            message: '작업 상태를 확인했습니다.',
+            data: result
+        });
+
+    } catch (error) {
+        console.error('Meshy 작업 상태 확인 오류:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: `작업 상태 확인 중 오류가 발생했습니다: ${error.message}` 
+        });
+    }
+});
+
+app.get('/api/meshy/download/:taskId', async (req, res) => {
+    try {
+        const { taskId } = req.params;
+
+        const response = await fetch(`https://api.meshy.ai/v1/tasks/${taskId}/download`, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer msy_8uXUWDNGMzgS7Tw5MVq962RasM6EpObWWOoV',
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        
+        res.json({ 
+            success: true, 
+            message: '다운로드 정보를 가져왔습니다.',
+            data: result
+        });
+
+    } catch (error) {
+        console.error('Meshy 다운로드 정보 오류:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: `다운로드 정보 가져오기 중 오류가 발생했습니다: ${error.message}` 
+        });
+    }
+});
+
+app.get('/api/meshy/usage', async (req, res) => {
+    try {
+        const response = await fetch('https://api.meshy.ai/v1/usage', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer msy_8uXUWDNGMzgS7Tw5MVq962RasM6EpObWWOoV',
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        
+        res.json({ 
+            success: true, 
+            message: 'API 사용량 정보를 가져왔습니다.',
+            data: result
+        });
+
+    } catch (error) {
+        console.error('Meshy 사용량 확인 오류:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: `사용량 확인 중 오류가 발생했습니다: ${error.message}` 
+        });
+    }
+});
+
 
 // 정적 파일 서빙
 app.get('/', (req, res) => {
@@ -175,6 +355,10 @@ app.get('/', (req, res) => {
 
 app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
+app.get('/meshy-test', (req, res) => {
+    res.sendFile(path.join(__dirname, 'meshy-test.html'));
 });
 
 // 서버 시작

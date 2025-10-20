@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meshy 3D AI API 테스트</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2C3E50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        button {
+            background-color: #2C3E50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #34495E;
+        }
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #2C3E50;
+        }
+        .error {
+            border-left-color: #e74c3c;
+            background-color: #fdf2f2;
+        }
+        .success {
+            border-left-color: #27ae60;
+            background-color: #f2fdf2;
+        }
+        .loading {
+            text-align: center;
+            color: #7f8c8d;
+        }
+        .usage-info {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 Meshy 3D AI API 테스트</h1>
+        
+        <div class="form-group">
+            <label for="prompt">3D 모델 생성 프롬프트:</label>
+            <textarea id="prompt" placeholder="예: A cute cartoon cat sitting on a chair"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="imageUrl">이미지 URL (선택사항):</label>
+            <input type="text" id="imageUrl" placeholder="https://example.com/image.jpg">
+        </div>
+
+        <button onclick="testTextTo3D()">텍스트로 3D 생성</button>
+        <button onclick="testImageTo3D()">이미지로 3D 생성</button>
+        <button onclick="checkUsage()">사용량 확인</button>
+        <button onclick="clearResults()">결과 지우기</button>
+
+        <div id="results"></div>
+    </div>
+
+    <script src="meshy-api.js"></script>
+    <script>
+        let currentTaskId = null;
+
+        async function testTextTo3D() {
+            const prompt = document.getElementById('prompt').value.trim();
+            if (!prompt) {
+                showResult('프롬프트를 입력해주세요.', 'error');
+                return;
+            }
+
+            showResult('3D 모델 생성 중...', 'loading');
+            
+            try {
+                const result = await generate3DFromText(prompt);
+                
+                if (result.error) {
+                    showResult(`오류: ${result.error}`, 'error');
+                } else {
+                    currentTaskId = result.result;
+                    showResult(`✅ 생성 요청 성공!<br>작업 ID: ${result.result}<br><button onclick="checkStatus()">상태 확인</button>`, 'success');
+                }
+            } catch (error) {
+                showResult(`오류: ${error.message}`, 'error');
+            }
+        }
+
+        async function testImageTo3D() {
+            const imageUrl = document.getElementById('imageUrl').value.trim();
+            if (!imageUrl) {
+                showResult('이미지 URL을 입력해주세요.', 'error');
+                return;
+            }
+
+            showResult('이미지로 3D 모델 생성 중...', 'loading');
+            
+            try {
+                const result = await generate3DFromImage(imageUrl);
+                
+                if (result.error) {
+                    showResult(`오류: ${result.error}`, 'error');
+                } else {
+                    currentTaskId = result.result;
+                    showResult(`✅ 생성 요청 성공!<br>작업 ID: ${result.result}<br><button onclick="checkStatus()">상태 확인</button>`, 'success');
+                }
+            } catch (error) {
+                showResult(`오류: ${error.message}`, 'error');
+            }
+        }
+
+        async function checkStatus() {
+            if (!currentTaskId) {
+                showResult('작업 ID가 없습니다.', 'error');
+                return;
+            }
+
+            showResult('작업 상태 확인 중...', 'loading');
+            
+            try {
+                const result = await checkTaskStatus(currentTaskId);
+                
+                if (result.error) {
+                    showResult(`오류: ${result.error}`, 'error');
+                } else {
+                    const status = result.status;
+                    const progress = result.progress || 0;
+                    
+                    let statusText = `상태: ${status}<br>진행률: ${progress}%`;
+                    
+                    if (status === 'SUCCEEDED') {
+                        statusText += `<br><button onclick="downloadModel()">모델 다운로드</button>`;
+                    } else if (status === 'FAILED') {
+                        statusText += `<br>❌ 생성 실패`;
+                    } else {
+                        statusText += `<br><button onclick="checkStatus()">다시 확인</button>`;
+                    }
+                    
+                    showResult(statusText, status === 'SUCCEEDED' ? 'success' : 'loading');
+                }
+            } catch (error) {
+                showResult(`오류: ${error.message}`, 'error');
+            }
+        }
+
+        async function downloadModel() {
+            if (!currentTaskId) {
+                showResult('작업 ID가 없습니다.', 'error');
+                return;
+            }
+
+            showResult('모델 다운로드 정보 가져오는 중...', 'loading');
+            
+            try {
+                const result = await downloadGeneratedModel(currentTaskId);
+                
+                if (result.error) {
+                    showResult(`오류: ${result.error}`, 'error');
+                } else {
+                    const downloadUrl = result.model_urls?.glb || result.model_urls?.obj;
+                    if (downloadUrl) {
+                        showResult(`✅ 다운로드 준비 완료!<br><a href="${downloadUrl}" target="_blank" style="color: #2C3E50; text-decoration: none; font-weight: bold;">📥 3D 모델 다운로드</a>`, 'success');
+                    } else {
+                        showResult('다운로드 URL을 찾을 수 없습니다.', 'error');
+                    }
+                }
+            } catch (error) {
+                showResult(`오류: ${error.message}`, 'error');
+            }
+        }
+
+        async function checkUsage() {
+            showResult('API 사용량 확인 중...', 'loading');
+            
+            try {
+                const result = await checkAPIUsage();
+                
+                if (result.error) {
+                    showResult(`오류: ${result.error}`, 'error');
+                } else {
+                    const usage = result.usage || {};
+                    const usageText = `
+                        <div class="usage-info">
+                            <h3>📊 API 사용량 정보</h3>
+                            <p><strong>사용된 크레딧:</strong> ${usage.used_credits || 'N/A'}</p>
+                            <p><strong>남은 크레딧:</strong> ${usage.remaining_credits || 'N/A'}</p>
+                            <p><strong>총 크레딧:</strong> ${usage.total_credits || 'N/A'}</p>
+                            <p><strong>리셋 날짜:</strong> ${usage.reset_date || 'N/A'}</p>
+                        </div>
+                    `;
+                    showResult(usageText, 'success');
+                }
+            } catch (error) {
+                showResult(`오류: ${error.message}`, 'error');
+            }
+        }
+
+        function showResult(message, type = '') {
+            const resultsDiv = document.getElementById('results');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `result ${type}`;
+            resultDiv.innerHTML = message;
+            resultsDiv.appendChild(resultDiv);
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+            currentTaskId = null;
+        }
+
+        // 페이지 로드 시 사용량 확인
+        window.onload = function() {
+            checkUsage();
+        };
+    </script>
+</body>
+</html>
