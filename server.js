@@ -133,6 +133,40 @@ app.delete('/api/consultations/:id', async (req, res) => {
     }
 });
 
+// 서버 IP 확인 API (알리고 발송서버 IP 등록용)
+app.get('/api/server-info', (req, res) => {
+    try {
+        const serverInfo = {
+            serverIP: req.ip || req.connection.remoteAddress || req.socket.remoteAddress,
+            forwardedIP: req.headers['x-forwarded-for'],
+            realIP: req.headers['x-real-ip'],
+            userAgent: req.get('User-Agent'),
+            timestamp: new Date().toISOString(),
+            headers: {
+                'x-forwarded-for': req.headers['x-forwarded-for'],
+                'x-real-ip': req.headers['x-real-ip'],
+                'cf-connecting-ip': req.headers['cf-connecting-ip'],
+                'x-client-ip': req.headers['x-client-ip']
+            }
+        };
+
+        console.log('서버 IP 정보 요청:', serverInfo);
+        
+        res.json({ 
+            success: true, 
+            message: '서버 IP 정보입니다.',
+            data: serverInfo
+        });
+
+    } catch (error) {
+        console.error('서버 IP 확인 오류:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'IP 확인 중 오류가 발생했습니다.' 
+        });
+    }
+});
+
 
 // 정적 파일 서빙
 app.get('/', (req, res) => {
