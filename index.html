@@ -694,56 +694,6 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.15);
         }
 
-        /* 대표 이미지 전용 스타일 */
-        .representative-image {
-            position: relative;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #f8f9fa;
-        }
-
-        .representative-image img {
-            width: 100%;
-            max-width: 400px;
-            height: auto;
-            min-height: 500px;
-            object-fit: contain;
-            border-radius: 15px;
-            background-blend-mode: multiply;
-            mix-blend-mode: multiply;
-        }
-
-        /* 모바일 반응형 */
-        @media (max-width: 768px) {
-            .representative-image {
-                margin-top: var(--box-padding-lg);
-                max-width: 100%;
-            }
-            
-            .representative-image img {
-                max-width: 100%;
-                min-height: 300px;
-                max-height: 400px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .representative-image img {
-                min-height: 250px;
-                max-height: 350px;
-            }
-        }
-
-        @media (max-width: 375px) {
-            .representative-image img {
-                min-height: 200px;
-                max-height: 300px;
-            }
-        }
 
         .services-image img {
             width: 100%;
@@ -1955,9 +1905,7 @@
                 </div>
             </div>
             
-            <div class="representative-image">
-                <img src="img/2.png" alt="대표 이규희">
-            </div>
+                    <img src="img/2.png" alt="대표 이규희">
         </div>
     </section>
 
