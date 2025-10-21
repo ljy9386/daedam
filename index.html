@@ -694,6 +694,23 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.15);
         }
 
+        /* 대표 이미지 전용 스타일 */
+        .representative-image {
+            position: relative;
+        }
+
+        .representative-image img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+        }
+
+        /* 모바일 반응형 */
+        @media (max-width: 768px) {
+            .representative-image {
+                margin-top: var(--box-padding-lg);
+            }
+        }
 
         .services-image img {
             width: 100%;
@@ -1905,7 +1922,9 @@
                 </div>
             </div>
             
-            <img src="img/2.png" alt="대표 이규희">
+            <div class="representative-image">
+                <img src="img/2.png" alt="대표 이규희">
+            </div>
         </div>
     </section>
 
