@@ -364,6 +364,6 @@ app.get('/meshy-test', (req, res) => {
 // 서버 시작
 app.listen(PORT, () => {
     console.log(`서버가 포트 ${PORT}에서 실행 중입니다.`);
-    console.log(`메인 페이지: https://daedam410.com`);
-    console.log(`관리자 페이지: https://daedam410.com/admin`);
+    console.log(`메인 페이지: https://daedam.onrender.com`);
+    console.log(`관리자 페이지: https://daedam.onrender.com/admin`);
 });
