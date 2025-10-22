@@ -359,5 +359,5 @@ app.get('/api/meshy/usage', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`서버가 포트 ${PORT}에서 실행 중입니다.`);
     console.log(`API 서버: https://daedam.onrender.com`);
-    console.log(`프론트엔드: 카페24 호스팅`);
+    console.log(`프론트엔드: https://daedam410.com`);
 });
