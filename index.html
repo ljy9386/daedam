@@ -2410,7 +2410,7 @@
                     submitBtn.textContent = '처리 중...';
                     
                     // 서버로 데이터 전송
-                    const response = await fetch('/api/consultations', {
+                    const response = await fetch('https://daedam.onrender.com/api/consultations', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
