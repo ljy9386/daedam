@@ -242,20 +242,23 @@
 
             .nav-menu {
                 position: fixed;
-                top: 0;
+                top: 70px;
                 left: -100%;
                 width: 70%;
                 max-width: 250px;
-                height: 100vh;
+                height: auto;
+                max-height: 60vh;
                 background: rgba(44, 62, 80, 0.98);
                 backdrop-filter: blur(10px);
+                border-radius: 0 0 15px 0;
                 flex-direction: column;
                 justify-content: flex-start;
                 align-items: center;
-                padding-top: 80px;
-                gap: var(--box-padding-md);
+                padding: 20px 0 30px 0;
+                gap: 8px;
                 transition: left 0.3s ease;
                 z-index: 999;
+                box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
             }
 
             .nav-menu.active {
@@ -291,12 +294,14 @@
             .nav-menu {
                 width: 65%;
                 max-width: 220px;
-                padding-top: 70px;
+                max-height: 50vh;
+                padding: 15px 0 20px 0;
+                gap: 6px;
             }
             
             .nav-link {
                 font-size: 0.9rem;
-                padding: 10px 12px;
+                padding: 8px 12px;
             }
 
             .logo-text {
