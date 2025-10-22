@@ -696,6 +696,24 @@
         @media (max-width: 768px) {
             .representative-image {
                 margin-top: var(--box-padding-lg);
+                margin-left: 0;
+                justify-content: center;
+            }
+        }
+
+        /* 모바일 375px 이하에서 중앙 정렬 강화 */
+        @media (max-width: 375px) {
+            .representative-image {
+                margin-left: 0;
+                justify-content: center;
+                display: flex;
+                width: 100%;
+            }
+            
+            .representative-image img {
+                max-width: 100%;
+                width: 100%;
+                margin: 0 auto;
             }
         }
 
