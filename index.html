@@ -2402,10 +2402,12 @@
                     investmentAmount: investmentAmount
                 };
                 
+                let originalText;
+
                 try {
                     // Submit button 비활성화
                     const submitBtn = this.querySelector('.submit-button');
-                    const originalText = submitBtn.textContent;
+                    originalText = submitBtn.textContent;
                     submitBtn.disabled = true;
                     submitBtn.textContent = '처리 중...';
                     
