@@ -363,6 +363,12 @@ SVGAElement
 });
 
 
+// 모든 요청 로깅 (라우트 전에 위치)
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+    next();
+});
+
 // 테스트 라우트
 app.get('/', (req, res) => {
     console.log('Root route accessed');
@@ -372,12 +378,6 @@ app.get('/', (req, res) => {
 app.get('/test', (req, res) => {
     console.log('Test route accessed');
     res.json({ message: 'Test route working!', port: PORT });
-});
-
-// 모든 요청 로깅
-app.use((req, res, next) => {
-    console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
-    next();
 });
 
 // 서버 시작 함수
