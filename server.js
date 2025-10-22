@@ -17,9 +17,16 @@ mongoose.connect(MONGODB_URI, {
 .catch(err => console.error('MongoDB 연결 실패:', err));
 
 // 미들웨어
-app.use(cors());
+app.use(cors({
+    origin: [
+        'https://daedam410.com',
+        'https://www.daedam410.com',
+        'http://localhost:3000', // 개발용
+        'http://127.0.0.1:3000'  // 개발용
+    ],
+    credentials: true
+}));
 app.use(express.json());
-app.use(express.static(path.join(__dirname)));
 
 // 상담 스키마 정의
 const consultationSchema = new mongoose.Schema({
@@ -348,22 +355,9 @@ app.get('/api/meshy/usage', async (req, res) => {
 });
 
 
-// 정적 파일 서빙
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-app.get('/admin', (req, res) => {
-    res.sendFile(path.join(__dirname, 'admin.html'));
-});
-
-app.get('/meshy-test', (req, res) => {
-    res.sendFile(path.join(__dirname, 'meshy-test.html'));
-});
-
 // 서버 시작
 app.listen(PORT, () => {
     console.log(`서버가 포트 ${PORT}에서 실행 중입니다.`);
-    console.log(`메인 페이지: https://daedam.onrender.com`);
-    console.log(`관리자 페이지: https://daedam.onrender.com/admin`);
+    console.log(`API 서버: https://daedam.onrender.com`);
+    console.log(`프론트엔드: 카페24 호스팅`);
 });
