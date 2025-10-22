@@ -19,8 +19,8 @@ mongoose.connect(MONGODB_URI, {
 // 미들웨어
 app.use(cors({
     origin: [
-        'https://daedam410.com',
-        'https://www.daedam410.com',
+        'http://daedam410.com',
+        'http://www.daedam410.com',
         'http://localhost:3000', // 개발용
         'http://127.0.0.1:3000'  // 개발용
     ],
@@ -332,7 +332,7 @@ app.get('/api/meshy/usage', async (req, res) => {
                 'Content-Type': 'application/json'
             }
         });
-
+SVGAElement     
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -359,5 +359,5 @@ app.get('/api/meshy/usage', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`서버가 포트 ${PORT}에서 실행 중입니다.`);
     console.log(`API 서버: https://daedam.onrender.com`);
-    console.log(`프론트엔드: https://daedam410.com`);
+    console.log(`프론트엔드: http://daedam410.com`);
 });
