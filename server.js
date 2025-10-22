@@ -13,8 +13,14 @@ mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
-.then(() => console.log('MongoDB 연결 성공'))
-.catch(err => console.error('MongoDB 연결 실패:', err));
+.then(() => {
+    console.log('MongoDB 연결 성공');
+    startServer();
+})
+.catch(err => {
+    console.error('MongoDB 연결 실패:', err);
+    process.exit(1);
+});
 
 // 미들웨어
 app.use(cors({
@@ -359,17 +365,29 @@ SVGAElement
 
 // 테스트 라우트
 app.get('/', (req, res) => {
+    console.log('Root route accessed');
     res.json({ message: 'Server is working!', timestamp: new Date().toISOString() });
 });
 
 app.get('/test', (req, res) => {
+    console.log('Test route accessed');
     res.json({ message: 'Test route working!', port: PORT });
 });
 
-// 서버 시작
-app.listen(PORT, () => {
-    console.log(`서버가 포트 ${PORT}에서 실행 중입니다.`);
-    console.log(`API 서버: https://daedam.onrender.com`);
-    console.log(`프론트엔드: http://daedam410.com`);
+// 모든 요청 로깅
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+    next();
 });
+
+// 서버 시작 함수
+function startServer() {
+    app.listen(PORT, () => {
+        console.log(`서버가 포트 ${PORT}에서 실행 중입니다.`);
+        console.log(`API 서버: https://daedam.onrender.com`);
+        console.log(`프론트엔드: http://daedam410.com`);
+        console.log('모든 라우트가 등록되었습니다.');
+    });
+}
+
 // Force redeploy
