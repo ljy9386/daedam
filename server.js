@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -35,6 +36,18 @@ app.use(cors({
     credentials: true
 }));
 app.use(express.json());
+
+// Preflight 요청 허용 (CORS 사전 요청 처리)
+app.options('*', cors());
+
+// 정적 파일 제공 (선택적) - 'public' 폴더가 있을 때만 활성화
+const publicDir = path.join(__dirname, 'public');
+if (fs.existsSync(publicDir)) {
+    app.use(express.static(publicDir));
+}
+
+// 파비콘 요청 무시 (콘솔 404 소음 제거)
+app.get('/favicon.ico', (_, res) => res.status(204).end());
 
 // 모든 요청 로깅 (모든 라우트 정의 전에 위치)
 app.use((req, res, next) => {
@@ -208,5 +221,3 @@ function startServer() {
         console.log('모든 라우트가 등록되었습니다.');
     });
 }
-
-// Force redeploy
