@@ -357,6 +357,15 @@ SVGAElement
 });
 
 
+// 테스트 라우트
+app.get('/', (req, res) => {
+    res.json({ message: 'Server is working!', timestamp: new Date().toISOString() });
+});
+
+app.get('/test', (req, res) => {
+    res.json({ message: 'Test route working!', port: PORT });
+});
+
 // 서버 시작
 app.listen(PORT, () => {
     console.log(`서버가 포트 ${PORT}에서 실행 중입니다.`);
