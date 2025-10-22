@@ -21,6 +21,8 @@ app.use(cors({
     origin: [
         'http://daedam410.com',
         'http://www.daedam410.com',
+        'https://daedam410.com',
+        'https://www.daedam410.com',
         'http://localhost:3000', // 개발용
         'http://127.0.0.1:3000'  // 개발용
     ],
