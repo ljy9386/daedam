@@ -36,6 +36,12 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// 모든 요청 로깅 (모든 라우트 정의 전에 위치)
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+    next();
+});
+
 // 상담 스키마 정의
 const consultationSchema = new mongoose.Schema({
     name: { type: String, required: true },           // 이름
@@ -340,7 +346,7 @@ app.get('/api/meshy/usage', async (req, res) => {
                 'Content-Type': 'application/json'
             }
         });
-SVGAElement     
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -362,12 +368,6 @@ SVGAElement
     }
 });
 
-
-// 모든 요청 로깅 (라우트 전에 위치)
-app.use((req, res, next) => {
-    console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
-    next();
-});
 
 // 테스트 라우트
 app.get('/', (req, res) => {
