@@ -200,7 +200,7 @@
         .nav-link {
             color: white;
             text-decoration: none;
-            font-size: var(--text-sm);
+            font-size: calc(var(--text-sm) * 1.5);
             font-weight: 500;
             transition: color 0.3s ease;
         }
@@ -232,80 +232,79 @@
         /* 모바일 반응형 네비게이션 */
         @media (max-width: 768px) {
             .nav-container {
-                justify-content: flex-start;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 10px;
+                padding: 10px 15px;
             }
             
             .mobile-menu-toggle {
-                display: flex;
-                order: -1;
+                display: none !important;
             }
 
             .nav-menu {
-                position: fixed;
-                top: 70px;
-                left: -100%;
-                width: 70%;
-                max-width: 250px;
-                height: auto;
-                max-height: 60vh;
-                background: rgba(44, 62, 80, 0.98);
-                backdrop-filter: blur(10px);
-                border-radius: 0 0 15px 0;
-                flex-direction: column;
-                justify-content: flex-start;
+                position: static;
+                display: flex !important;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
                 align-items: center;
-                padding: 20px 0 30px 0;
+                width: 100%;
+                height: auto;
+                background: transparent;
+                backdrop-filter: none;
+                border-radius: 0;
+                padding: 0;
                 gap: 8px;
-                transition: left 0.3s ease;
-                z-index: 999;
-                box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
-            }
-
-            .nav-menu.active {
-                left: 0;
+                transition: none;
+                z-index: auto;
+                box-shadow: none;
             }
 
             .nav-link {
-                font-size: 1rem;
-                padding: 12px 16px;
-                display: block;
-                width: 90%;
+                font-size: 0.85rem;
+                padding: 8px 12px;
+                display: inline-block;
+                width: auto;
                 text-align: center;
                 color: white;
                 text-decoration: none;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                background: transparent;
+                border-radius: 0;
+                border: none;
                 transition: all 0.3s ease;
+                white-space: nowrap;
             }
             
             .nav-link:hover {
-                background: rgba(255, 107, 53, 0.2);
+                background: transparent;
                 color: #ff6b35;
+                transform: none;
             }
 
             .nav-cta {
-                margin-top: var(--box-padding-md);
-                font-size: var(--text-base);
-                padding: var(--box-padding-md) var(--box-padding-lg);
+                display: none;
             }
         }
         
         /* 375px 이하에서 추가 최적화 */
         @media (max-width: 375px) {
+            .nav-container {
+                padding: 8px 10px;
+                gap: 6px;
+            }
+            
             .nav-menu {
-                width: 65%;
-                max-width: 220px;
-                max-height: 50vh;
-                padding: 15px 0 20px 0;
                 gap: 6px;
             }
             
             .nav-link {
-                font-size: 0.9rem;
-                padding: 8px 12px;
+                font-size: 0.75rem;
+                padding: 6px 10px;
             }
 
             .logo-text {
-                font-size: var(--text-xl);
+                font-size: calc(var(--text-xl) * 1.5);
             }
         }
 
@@ -315,11 +314,11 @@
             }
 
             .logo img {
-                height: 35px;
+                height: calc(35px * 1.5);
             }
 
             .logo-text {
-                font-size: var(--text-lg);
+                font-size: calc(var(--text-lg) * 1.5);
             }
         }
 
@@ -1102,7 +1101,7 @@
         }
 
         .map-badge {
-            color: var(--primary-color);
+            color: #ff8c00;
             font-size: var(--text-sm);
             font-weight: 600;
             text-transform: uppercase;
@@ -1885,7 +1884,7 @@
             }
 
             .logo-text {
-                font-size: 1.2rem;
+                font-size: calc(1.2rem * 1.5);
             }
 
             .nav-cta {
@@ -1926,8 +1925,11 @@
                     <img src="img/logo.png" alt="대담 로고">
                 </div>
                 <h1 class="hero-title">부동산을 넘어, 선한 영향력으로.</h1>
-                <p class="hero-subtitle">(주)부동산투자법인 대담은 투명한 투자와 데이터 기반 전략으로 지속 가능한 수익을 창출합니다.</p>
-                <p class="hero-description">우리는 부동산의 가치를 회복하는 동시에, 그 수익의 일부를 미래 세대를 위한 장학사업과 지역사회 기부활동으로 환원합니다.</p>
+                <p class="hero-subtitle">(주)부동산투자법인 대담은 투명한 투자와 데이터 기반 전략으로<br>
+                     지속 가능한 수익을 창출합니다.</p>
+                <p class="hero-description">우리는 부동산의 가치를 회복하는 동시에, 그 수익의 일부를 미래 세대를 위한<br>
+                     장학사업과 지역사회 기부활동으로 환원합니다.</p>
+                     <br>
                 <p class="hero-philosophy">투자를 통해 사회적 가치를 실현하는 것, 그것이 대담의 철학입니다.</p>
             </div>
         </div>
@@ -1952,18 +1954,21 @@
                     
                     <p style="font-size: 1.1rem; line-height: 1.8; color: #555; margin-bottom: 1.5rem;">
                         대담은 단순한 투자회사가 아닙니다.<br>
-                        우리는 <strong style="color: #7384d5;">투자의 선순환 구조</strong>를 통해 사회적 가치를 함께 만들어갑니다.
+                        우리는 <strong style="color: #7384d5;">투자의 선순환 구조</strong>를 통해 사회적 가치를<br> 
+                        함께 만들어갑니다.
                     </p>
                     
                     <p style="font-size: 1.1rem; line-height: 1.8; color: #555; margin-bottom: 1.5rem;">
                         대담이 얻은 수익은 개인의 이익에 머물지 않습니다.<br>
                         그 일부는 <strong style="color: #ff8c00;">지역사회 기부, 청년 장학금, 어려운 이웃</strong>을 위한 주거개선 지원 등에 쓰이며,<br>
-                        이를 통해 <strong style="color: #7384d5;">"투자가 곧 나눔이 되는 구조"</strong>를 만들어가고 있습니다.
+                        이를 통해 <strong style="color: #7384d5;">"투자가 곧 나눔이 되는 구조"</strong>를 만들어가고<br>
+                        있습니다.
                     </p>
                     
                     <p style="font-size: 1.1rem; line-height: 1.8; color: #555;">
                         앞으로도 대담은<br>
-                        투명한 투자, 실무 중심의 분석, 그리고 선한 영향력의 확산이라는 세 가지 축으로<br>
+                        투명한 투자, 실무 중심의 분석, 그리고 선한 영향력의<br>
+                        확산이라는 세 가지 축으로<br>
                         더 나은 사회적 변화를 만들어가겠습니다.
                     </p>
                     
@@ -2018,13 +2023,16 @@
                     
                     <div style="background: #f8f9fa; padding: 30px; border-radius: 15px; margin: 30px 0;">
                         <p style="font-size: 1.1rem; line-height: 1.8; color: #333; margin-bottom: 1.5rem;">
-                            대담은 법률·세무·데이터 분석을 기반으로 투자 리스크를 관리하며,<br>
-                            동시에 투자의 성과를 사회로 환원하는 선순환 구조를 추구합니다.
+                            대담은 법률·세무·데이터 분석을 기반으로<br>
+                            투자 리스크를 관리하며,<br>
+                            동시에 투자의 성과를 사회로 환원하는 선순환 구조를 <br>
+                            추구합니다.
                         </p>
                         
                         <p style="font-size: 1.1rem; line-height: 1.8; color: #333; margin-bottom: 1.5rem;">
                             실무 경험과 데이터 분석, 그리고 책임 있는 투자철학이 결합되어<br>
-                            '수익과 사회적 가치를 함께 창출하는 법인'으로 자리매김하고 있습니다.
+                            '수익과 사회적 가치를 함께 창출하는 법인'으로 자리매김하고<br>
+                            있습니다.
                         </p>
                         
                         <p style="font-size: 1.1rem; line-height: 1.8; color: #333;">
@@ -2044,7 +2052,8 @@
             <div class="services-content">
                 <div class="services-badge">전문 영역</div>
                 <h2 class="services-title" style="font-weight:700; color: #333;">대담의 3대 전문영역</h2>
-                <p class="services-description">법원경매, 공매, 지분투자, 임야개발 등 전문 분야에서 체계적인 분석과 실무 경험을 바탕으로 최적의 투자 전략을 제공합니다.</p>
+                <p class="services-description">법원경매, 공매, 지분투자, 임야개발 등 전문 분야에서 체계적인 <br>
+                분석과 실무 경험을 바탕으로 최적의 투자 전략을 제공합니다.</p>
             </div>
             
             <div class="services-image" style="height: auto; display: flex; align-items: center; padding: 0;">
@@ -2058,14 +2067,14 @@
                     <tbody>
                         <tr>
                             <td style="padding: 25px; font-weight: 700; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 1.1rem; border-bottom: 1px solid rgba(255,255,255,0.3); text-align: center;">법원경매 / 공매</td>
-                            <td style="padding: 25px; background: rgba(255, 255, 255, 0.9); color: #333; line-height: 1.6; border-bottom: 1px solid rgba(255,255,255,0.3); text-align: center;">낙찰가 산정, 유찰 활용 전략, 명도 리스크<br>최소화</td>
+                            <td style="padding: 25px; background: rgba(255, 255, 255, 0.9); color: #333; line-height: 1.6; border-bottom: 1px solid rgba(255,255,255,0.3); text-align: center;">낙찰가 산정, 유찰 활용 전략, <br> 명도 리스크 최소화</td>
                         </tr>
                         <tr>
-                            <td style="padding: 25px; font-weight: 700; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 1.1rem; border-bottom: 1px solid rgba(255,255,255,0.3); text-align: center;">지분투자 / 공유물분할</td>
+                            <td style="padding: 25px; font-weight: 700; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 1.1rem; border-bottom: 1px solid rgba(255,255,255,0.3); text-align: center;">지분투자 / <br> 공유물분할</td>
                             <td style="padding: 25px; background: rgba(255, 255, 255, 0.9); color: #333; line-height: 1.6; border-bottom: 1px solid rgba(255,255,255,0.3); text-align: center;">공유자 협의분할소송, 분묘·무단점유<br>특수물건 대응</td>
                         </tr>
                         <tr>
-                            <td style="padding: 25px; font-weight: 700; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 1.1rem; text-align: center;">임야개발 / 특수자산 컨설팅</td>
+                            <td style="padding: 25px; font-weight: 700; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 1.1rem; text-align: center;">임야개발 / <br> 특수자산 컨설팅</td>
                             <td style="padding: 25px; background: rgba(255, 255, 255, 0.9); color: #333; line-height: 1.6; text-align: center;">산지관리법 장사법 등 공법규제 검토,<br>수익형 개발방안</td>
                         </tr>
                     </tbody>
@@ -2096,7 +2105,7 @@
                 <div class="services-badge">서비스 소개</div>
                 <h2 class="services-title">부동산 경매<br>컨설팅 서비스</h2>
                 <p class="services-description">대담은 권리분석 → 입찰 대행 → 낙찰 후 명도·매도 전략까지<br>투자 전 과정을 책임집니다.</p>
-                <p class="services-description" style="font-size: 0.9rem; color: #666; margin-top: 20px;">상기 수수료는 부가세 별도입니다. 사건 난이도·특수성에 따라 조정될 수 있습니다.</p>
+                <p class="services-description" style="font-size: 0.9rem; color: #666; margin-top: 20px;">※ 상기 수수료는 부가세 별도입니다. 사건 난이도·특수성에 따라 조정될 수 있습니다.</p>
                 
                 <div style="margin-top: 30px; display: flex; gap: 15px; flex-wrap: wrap;">
                     <a href="#contact" style="display: inline-block; padding: 12px 24px; font-size: 0.9rem; border-radius: 8px; background: #2C3E50; color: white; text-decoration: none; cursor: pointer; border: none;">무료 권리분석 신청하기</a>
@@ -2116,17 +2125,27 @@
                         <tr>
                             <td style="padding: 15px 10px; font-weight: 700; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 0.9rem; border: 1px solid #ddd; text-align: center;">권리분석</td>
                             <td style="padding: 15px 10px; background: rgba(255, 255, 255, 0.9); color: #333; line-height: 1.4; border: 1px solid #ddd; text-align: center;">낙찰 가능성 분석, 대항력·인수금액<br>검토, ROI 산정</td>
-                            <td style="padding: 15px 10px; background: rgba(255, 255, 255, 0.9); color: #333; border: 1px solid #ddd; text-align: center;">무료</td>
+                            <td style="padding: 15px 10px; background: rgba(255, 255, 255, 0.9); color: #333; border: 1px solid #ddd; text-align: center;">₩500,000 / 1건</td>
                         </tr>
                         <tr>
-                            <td style="padding: 15px 10px; font-weight: 700; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 0.9rem; border: 1px solid #ddd; text-align: center;">입찰 대행</td>
-                            <td style="padding: 15px 10px; background: rgba(255, 255, 255, 0.9); color: #333; line-height: 1.4; border: 1px solid #ddd; text-align: center;">압류재산·신탁공매 권리분석 및<br>입찰전략</td>
-                            <td style="padding: 15px 10px; background: rgba(255, 255, 255, 0.9); color: #333; border: 1px solid #ddd; text-align: center;">낙찰가의 3%</td>
+                            <td style="padding: 15px 10px; font-weight: 700; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 0.9rem; border: 1px solid #ddd; text-align: center;">경매 컨설팅 <br>
+                                (입찰 대행 포함)</td>
+                            <td style="padding: 15px 10px; background: rgba(255, 255, 255, 0.9); color: #333; line-height: 1.4; border: 1px solid #ddd; text-align: center;">입찰가 산정, 자금조달 계획, <br> 낙찰 후 명도·매도 전략</td>
+                            <td style="padding: 15px 10px; background: rgba(255, 255, 255, 0.9); color: #333; border: 1px solid #ddd; text-align: center;">낙찰금액 기준 <br>
+                                1~5억까지 1% <br>
+                                5억 초과 시 5억 <br> 단위마다
+                                0.5% 추가</td>
                         </tr>
                         <tr>
-                            <td style="padding: 15px 10px; font-weight: 700; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 0.9rem; border: 1px solid #ddd; text-align: center;">특수물건 컨설팅</td>
-                            <td style="padding: 15px 10px; background: rgba(255, 255, 255, 0.9); color: #333; line-height: 1.4; border: 1px solid #ddd; text-align: center;">분묘·공유토지 등 특수물건 실무<br>컨설팅</td>
+                            <td style="padding: 15px 10px; font-weight: 700; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 0.9rem; border: 1px solid #ddd; text-align: center;">공매 / 온비드 분석</td>
+                            <td style="padding: 15px 10px; background: rgba(255, 255, 255, 0.9); color: #333; line-height: 1.4; border: 1px solid #ddd; text-align: center;">압류재산·신탁공매 권리분석 및<br> 입찰전략</td>
                             <td style="padding: 15px 10px; background: rgba(255, 255, 255, 0.9); color: #333; border: 1px solid #ddd; text-align: center;">별도 협의</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 15px 10px; font-weight: 700; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 0.9rem; border: 1px solid #ddd; text-align: center;">지분경매 / <br>
+                                공유물분할 자문</td>
+                            <td style="padding: 15px 10px; background: rgba(255, 255, 255, 0.9); color: #333; line-height: 1.4; border: 1px solid #ddd; text-align: center;">분묘·공유토지 등 특수물건 <br>실무 컨설팅</td>
+                            <td style="padding: 15px 10px; background: rgba(255, 255, 255, 0.9); color: #333; border: 1px solid #ddd; text-align: center;">사건별 협의</td>
                         </tr>
                     </tbody>
                 </table>
@@ -2242,10 +2261,10 @@
                 <div class="footer-about">
                     <h3>About</h3>
                     <p>주식회사 부동산투자법인 대담은 부동산 경매, 공매, 지분거래, 임야개발 등<br>
-                    다양한 투자 분야에서 안정적 수익과 사회적 책임을 함께 실현하는 투자법인입니다.<br><br>
+                    다양한 투자 분야에서 안정적 수익과 사회적 책임을 함께 실현하는 <br> 투자법인입니다.<br><br>
                     
                     대담은 매년 수익의 일부를 기부활동과 장학사업으로 환원하며,<br>
-                    투자를 통해 사회에 선한 영향력을 확산시키는 것을 기업의 중요한 사명으로 삼고 있습니다.<br><br>
+                    투자를 통해 사회에 선한 영향력을 확산시키는 것을 기업의 중요한 <br> 사명으로 삼고 있습니다.<br><br>
                     
                     "가치를 나누는 투자, 세상을 바꾸는 대담."</p>
                 </div>
